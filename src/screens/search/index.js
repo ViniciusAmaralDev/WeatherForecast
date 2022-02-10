@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Alert, StatusBar, Keyboard } from "react-native";
 import Context from "../../context";
 import {
@@ -18,12 +18,9 @@ import loadingAnimation from "../../assets/animations/loading.json";
 import AddCityCard from "../../components/addCityCard";
 
 export default function Search() {
-  const {
-    theme,
-    dispatch,
-    state: { weatherForecasts },
-  } = useContext(Context);
+  const { theme, dispatch, state } = useContext(Context);
 
+  const [placeholder, setPlaceholder] = useState("");
   const [searchInputText, setSearchInputText] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -57,6 +54,14 @@ export default function Search() {
     }
   };
 
+  useEffect(() => {
+    const {
+      selectedLanguage,
+      search: { placeholderInputText },
+    } = state.settingsApplication;
+    setPlaceholder(placeholderInputText[selectedLanguage]);
+  }, [state]);
+
   return (
     <>
       <StatusBar
@@ -66,8 +71,7 @@ export default function Search() {
       <Container>
         <InputContainer style={{ elevation: 3 }}>
           <Input
-            defaultValue={searchInputText}
-            placeholder="pesquise por alguma cidade"
+            placeholder={placeholder}
             placeholderTextColor={theme.primaryTextColor}
             onChangeText={(text) => setSearchInputText(text)}
           />

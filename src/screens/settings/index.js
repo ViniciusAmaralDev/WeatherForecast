@@ -1,17 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import Context from "../../context";
 import { Container, Button, HStack } from "./styles";
 import Text from "../../components/text";
 
 export default function Settings() {
-  const {
-    dispatch,
-    theme,
-    state: {
-      settingsApplication: { selectedLanguage, selectedTemperatureScale },
-    },
-  } = useContext(Context);
+  const { dispatch, theme, state } = useContext(Context);
+
+  const PTBR = "pt_br";
+  const EN = "en";
+
+  const CELSIUS = "Celsius";
+  const FAHRENHEIT = "Fahrenheit";
+
+  const [language, setLanguage] = useState("");
+  const [temperatureScale, setTemperatureScale] = useState("");
+
+  const [languageTitle, setLanguageTitle] = useState("");
+  const [scaleTitle, setScaleTitle] = useState("");
+
+  const [portugueseButtonText, setPortugueseButtonText] = useState("");
+  const [englishButtonText, setEnglishButtonText] = useState("");
 
   const handleLanguage = (language) => {
     dispatch({ type: "handleLanguage", payload: language });
@@ -21,6 +30,26 @@ export default function Settings() {
     dispatch({ type: "handleTemperatureScale", payload: temperatureScale });
   };
 
+  useEffect(() => {
+    const {
+      selectedLanguage,
+      selectedTemperatureScale,
+      settings: {
+        applicationLanguageTitleText,
+        temperatureScaleTitleText,
+        portugueseButtonText,
+        englishButtonText,
+      },
+    } = state.settingsApplication;
+
+    setLanguage(selectedLanguage);
+    setTemperatureScale(selectedTemperatureScale);
+    setLanguageTitle(applicationLanguageTitleText[selectedLanguage]);
+    setScaleTitle(temperatureScaleTitleText[selectedLanguage]);
+    setPortugueseButtonText(portugueseButtonText[selectedLanguage]);
+    setEnglishButtonText(englishButtonText[selectedLanguage]);
+  }, [state]);
+
   return (
     <>
       <StatusBar
@@ -28,35 +57,37 @@ export default function Settings() {
         backgroundColor={theme.primaryBackgroundColor}
       />
       <Container>
-        <Text value="Idioma do aplicativo" bold mb={16} size={20} />
+        <Text value={languageTitle} bold mb={16} size={20} />
         <HStack>
           <Button
-            onPress={() => handleLanguage("pt_br")}
-            active={selectedLanguage === "pt_br" ? true : false}
+            onPress={() => handleLanguage(PTBR)}
+            active={language === PTBR ? true : false}
           >
-            <Text value={"Português"} semiBold size={18} />
+            <Text value={portugueseButtonText} semiBold size={18} />
           </Button>
           <Button
-            onPress={() => handleLanguage("en")}
-            active={selectedLanguage === "en" ? true : false}
+            onPress={() => handleLanguage(EN)}
+            active={language === EN ? true : false}
           >
-            <Text value={"Inglês"} semiBold size={18} />
+            <Text value={englishButtonText} semiBold size={18} />
           </Button>
         </HStack>
 
-        <Text value="Escala de temperatura" bold mb={16} mt={24} size={20} />
+        <Text value={scaleTitle} bold mb={16} mt={24} size={20} />
         <HStack>
           <Button
-            onPress={() => handleTemperature("celsius")}
-            active={selectedTemperatureScale === "celsius" ? true : false}
+            onPress={() => handleTemperature(CELSIUS.toLowerCase())}
+            active={temperatureScale === CELSIUS.toLowerCase() ? true : false}
           >
-            <Text value={"Celsius"} semiBold size={18} />
+            <Text value={CELSIUS} semiBold size={18} />
           </Button>
           <Button
-            onPress={() => handleTemperature("fahrenheit")}
-            active={selectedTemperatureScale === "fahrenheit" ? true : false}
+            onPress={() => handleTemperature(FAHRENHEIT.toLowerCase())}
+            active={
+              temperatureScale === FAHRENHEIT.toLowerCase() ? true : false
+            }
           >
-            <Text value={"Fahrenheit"} semiBold size={18} />
+            <Text value={FAHRENHEIT} semiBold size={18} />
           </Button>
         </HStack>
       </Container>

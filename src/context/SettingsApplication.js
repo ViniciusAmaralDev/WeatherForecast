@@ -2,16 +2,46 @@ export default {
   selectedLanguage: "pt_br",
   selectedTemperatureScale: "celsius",
   home: {
-    title: { pt_br: "Previsão do tempo", en: "Wather Forecast" },
+    titleScreen: { pt_br: "Previsão do tempo", en: "Wather Forecast" },
   },
   search: {
-    title: { pt_br: "Pesquisar", en: "Search" },
+    titleScreen: { pt_br: "Pesquisar", en: "Search" },
+    placeholderInputText: {
+      pt_br: "Pesquise por algum lugar",
+      en: "search for somewhere",
+    },
+    logFahrenheitEnglish: {
+      pt_br: "Obtendo a previsão na escala Fahrenheit em inglês!",
+      en: "Getting the forecast on the Fahrenheit scale in English!",
+    },
+    logFahrenheitPortuguese: {
+      pt_br: "Obtendo a previsão na escala Fahrenheit em português!",
+      en: "Getting the forecast on the Fahrenheit scale in portuguese!",
+    },
+    logCelsiusEnglish: {
+      pt_br: "Obtendo a previsão na escala Celsius em inglês!",
+      en: "Getting the forecast on the Celsius scale in English!",
+    },
+    logCelsiusPortuguese: {
+      pt_br: "Obtendo a previsão na escala Celsius em português!",
+      en: "Getting the forecast on the Celsius scale in portuguese!",
+    },
   },
   favorites: {
-    title: { pt_br: "Favoritos", en: "Favorites" },
+    titleScreen: { pt_br: "Favoritos", en: "Favorites" },
   },
   settings: {
-    title: { pt_br: "Configurações", en: "Settings" },
+    titleScreen: { pt_br: "Configurações", en: "Settings" },
+    applicationLanguageTitleText: {
+      pt_br: "Idioma do aplicativo",
+      en: "Application Language",
+    },
+    temperatureScaleTitleText: {
+      pt_br: "Escala de temperatura",
+      en: "Temperature Scale",
+    },
+    portugueseButtonText: { pt_br: "Português", en: "Portuguese" },
+    englishButtonText: { pt_br: "Inglês", en: "English" },
   },
 };
 

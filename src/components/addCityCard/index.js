@@ -16,11 +16,31 @@ import {
 
 export default function AddCityCard({ data }) {
   const { latitude, longitude, city, country } = data;
-  const {
-    theme,
-    dispatch,
-    state: { weatherForecasts, settingsApplication },
-  } = useContext(Context);
+  const { theme, dispatch, state } = useContext(Context);
+
+  const [logFahrenheitEnglish, setLogFahrenheitEnglish] = useState("");
+  const [logFahrenheitPortuguese, setLogFahrenheitPortuguese] = useState("");
+  const [logCelsiusEnglish, setLogCelsiusEnglish] = useState("");
+  const [logCelsiusPortuguese, setLogCelsiusPortuguese] = useState("");
+
+  useEffect(() => {
+    const {
+      settingsApplication: {
+        selectedLanguage,
+        search: {
+          logFahrenheitEnglish,
+          logFahrenheitPortuguese,
+          logCelsiusEnglish,
+          logCelsiusPortuguese,
+        },
+      },
+    } = state;
+
+    setLogFahrenheitEnglish(logFahrenheitEnglish[selectedLanguage]);
+    setLogFahrenheitPortuguese(logFahrenheitPortuguese[selectedLanguage]);
+    setLogCelsiusEnglish(logCelsiusEnglish[selectedLanguage]);
+    setLogCelsiusPortuguese(logCelsiusPortuguese[selectedLanguage]);
+  }, [state]);
 
   const [log, setLog] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,7 +49,7 @@ export default function AddCityCard({ data }) {
   const addCity = async () => {
     setLoading(true);
     try {
-      setLog("Obtendo a previsão na escala Fahrenheit em inglês!");
+      setLog(logFahrenheitEnglish);
       const weatherForecastInFahrenheitAndEnglish = await getWeatherForecastInFahrenheitAndEnglish(
         latitude,
         longitude
@@ -49,7 +69,7 @@ export default function AddCityCard({ data }) {
     }
 
     try {
-      setLog("Obtendo a previsão na escala Celsius em inglês!");
+      setLog(logCelsiusEnglish);
       const weatherForecastInCelsiusAndEnglish = await getWeatherForecastInCelsiusAndEnglish(
         latitude,
         longitude
@@ -69,7 +89,7 @@ export default function AddCityCard({ data }) {
     }
 
     try {
-      setLog("Obtendo a previsão na escala Fahrenheit em português!");
+      setLog(logFahrenheitPortuguese);
       const weatherForecastInFahrenheitAndPortuguese = await getWeatherForecastInFahrenheitAndPortuguese(
         latitude,
         longitude
@@ -89,7 +109,7 @@ export default function AddCityCard({ data }) {
     }
 
     try {
-      setLog("Obtendo a previsão na escala Celsius em português!");
+      setLog(logCelsiusPortuguese);
       const weatherForecastInCelsiusAndPortuguese = await getWeatherForecastInCelsiusAndPortuguese(
         latitude,
         longitude
@@ -113,8 +133,8 @@ export default function AddCityCard({ data }) {
   };
 
   const cityIsAdded = () => {
-    if (weatherForecasts.length > 0) {
-      weatherForecasts.forEach((item) => {
+    if (state.weatherForecasts.length > 0) {
+      state.weatherForecasts.forEach((item) => {
         if (item.city === city) {
           setSaved(true);
         }

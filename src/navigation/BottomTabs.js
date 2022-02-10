@@ -20,10 +20,10 @@ export default () => {
   } = useContext(Context);
 
   const language = settingsApplication.selectedLanguage;
-  const homeTitle = settingsApplication.home.title[language];
-  const searchTitle = settingsApplication.search.title[language];
-  const favoritesTitle = settingsApplication.favorites.title[language];
-  const settingsTitle = settingsApplication.settings.title[language];
+  const homeTitle = settingsApplication.home.titleScreen[language];
+  const searchTitle = settingsApplication.search.titleScreen[language];
+  const favoritesTitle = settingsApplication.favorites.titleScreen[language];
+  const settingsTitle = settingsApplication.settings.titleScreen[language];
 
   return (
     <Tab.Navigator
